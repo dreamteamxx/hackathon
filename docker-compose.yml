@@ -1,0 +1,106 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    env_file:
+      - .env
+    environment:
+      PGCLIENTENCODING: UTF8
+    ports:
+      - "5432:5432"
+    networks:
+      backend-network:
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+
+  backend:
+    build:
+      context: backend
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      backend-network:
+        ipv4_address: 175.16.239.10
+
+#  prometheus:
+#    image: prom/prometheus:latest
+#    restart: unless-stopped
+#    container_name: prometheus
+#    ports:
+#      - "9090:9090"
+#    depends_on:
+#      - backend
+#    volumes:
+#      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+#      - ./data/prometheus/data:/prometheus
+#      - ./data/prometheus/configs:/etc/prometheus
+#    command:
+#      - "--config.file=/etc/prometheus/prometheus.yml"
+#    networks:
+#      backend-network:
+#        ipv4_address: 175.16.239.11
+#    logging:
+#      driver: none
+
+
+#  grafana:
+#    image: grafana/grafana:latest
+#    restart: unless-stopped
+#    user: "472"
+#    container_name: grafana
+#    depends_on:
+#      - prometheus
+#    ports:
+#      - "3003:3000"
+#    volumes:
+#      - ./datasource.yml:/etc/grafana/provisioning/datasource.yml
+#      - ./data/grafana/data:/var/lib/grafana
+#    logging:
+#      driver: none
+#    env_file:
+#      - ./config.monitoring
+#    networks:
+#      backend-network:
+#        ipv4_address: 175.16.239.12
+
+#  node-exporter:
+#    image: prom/node-exporter:v1.3.1
+#    ports:
+#      - "9100:9100"
+#    volumes:
+#      - /proc:/host/proc:ro
+#      - /sys:/host/sys:ro
+#      - /:/rootfs:ro
+#    command:
+#      - '--path.procfs=/host/proc'
+#      - '--path.sysfs=/host/sys'
+#      - '--collector.filesystem.mount-points-exclude'
+#      - '^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
+#    networks:
+#      backend-network:
+#        ipv4_address: 175.16.239.13
+#    depends_on:
+#      - backend
+volumes:
+  root-home:
+  grafana-data:
+  grafana-configs:
+  prom-data:
+  prom-configs:
+  app-db-data:
+
+
+networks:
+  backend-network:
+    name: backend-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 175.16.239.0/24
