@@ -50,6 +50,7 @@ class Settings(BaseSettings):
 
     SECRET_KEY: str
     ENVIRONMENT: str
+    GEOCODING_API_KEY: str
 
     class Config:
         env_file = "../.env"
