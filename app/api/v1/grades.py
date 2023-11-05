@@ -18,10 +18,10 @@ SessionDB = Annotated[AsyncSession, Depends(get_async_session)]
 
 @router.get("", response_model=List[GradeRead])
 async def get_grades(
-        response: Response,
-        session: SessionDB,
-        skip: int = 0,
-        limit: int = 100,
+    response: Response,
+    session: SessionDB,
+    skip: int = 0,
+    limit: int = 100,
 ) -> Any:
     logger.info(f"Getting grades")
     return []

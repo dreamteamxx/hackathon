@@ -8,7 +8,9 @@ from app.db import Base
 class Office(Base):
     __tablename__ = "office"
 
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, nullable=False, autoincrement=True)
+    id: Mapped[int] = mapped_column(
+        BigInteger, primary_key=True, nullable=False, autoincrement=True
+    )
     office_name: Mapped[str] = mapped_column(String, index=True, nullable=False)
     address: Mapped[str] = mapped_column(String, nullable=False)
 
