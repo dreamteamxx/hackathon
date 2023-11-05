@@ -43,12 +43,24 @@ async def create_grade(
     logger.info(f"Grade created")
 
 
-@router.put("", response_model=GradeUpdate)
+@router.patch("/{grade_id}", response_model=GradeUpdate)
 async def update_grade(
+        grade_id: int,
         response: Response,
         session: SessionDB,
         grade: GradeUpdate,
 ) -> Any:
     grade_repo: GradeRepo = GradeRepo(session)
-    await grade_repo.update_grade(grade)
+    await grade_repo.update_grade(grade_id, grade)
     logger.info(f"Grade updated")
+
+
+@router.delete("/{grade_id}")
+async def delete_grade(
+        grade_id: int,
+        response: Response,
+        session: SessionDB,
+) -> Any:
+    grade_repo: GradeRepo = GradeRepo(session)
+    await grade_repo.delete_grade(grade_id)
+    logger.info(f"Grade deleted")

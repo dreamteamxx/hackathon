@@ -1,6 +1,6 @@
 import logging
 
-from sqlalchemy import select, update
+from sqlalchemy import select, update, delete
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import IntegrityError
 
@@ -26,11 +26,20 @@ class GradeRepo(SQLAlchemyRepo):
             logger.error(f"Error creating grade: {e}")
             await self.session.rollback()
 
-    async def update_grade(self, grade: GradeUpdate) -> None:
-        stmt = update(models.Grade).where(models.Grade.id == grade.id).values(**grade.model_dump())
+    async def update_grade(self, grade_id: int, grade: GradeUpdate) -> None:
+        stmt = update(models.Grade).where(models.Grade.id == grade_id).values(**grade.model_dump())
         try:
             await self.session.execute(stmt)
             await self.session.commit()
         except IntegrityError as e:
             logger.error(f"Error updating grade: {e}")
+            await self.session.rollback()
+
+    async def delete_grade(self, grade_id: int) -> None:
+        stmt = delete(models.Grade).where(models.Grade.id == grade_id)
+        try:
+            await self.session.execute(stmt)
+            await self.session.commit()
+        except IntegrityError as e:
+            logger.error(f"Error deleting grade: {e}")
             await self.session.rollback()
