@@ -39,8 +39,9 @@ async def create_grade(
         grade: GradeCreate,
 ) -> Any:
     grade_repo: GradeRepo = GradeRepo(session)
-    await grade_repo.create_grade(grade)
+    result = await grade_repo.create_grade(grade)
     logger.info(f"Grade created")
+    return result
 
 
 @router.patch("/{grade_id}", response_model=GradeUpdate)
@@ -51,8 +52,9 @@ async def update_grade(
         grade: GradeUpdate,
 ) -> Any:
     grade_repo: GradeRepo = GradeRepo(session)
-    await grade_repo.update_grade(grade_id, grade)
+    result = await grade_repo.update_grade(grade_id, grade)
     logger.info(f"Grade updated")
+    return result
 
 
 @router.delete("/{grade_id}")

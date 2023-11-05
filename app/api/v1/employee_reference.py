@@ -39,8 +39,9 @@ async def create_employee(
         employee: EmployeeReferenceCreate,
 ) -> Any:
     employee_reference_repo: EmployeeReferenceRepo = EmployeeReferenceRepo(session)
-    await employee_reference_repo.create_employee(employee)
+    item: EmployeeReferenceCreate = await employee_reference_repo.create_employee(employee)
     logger.info(f"Employee created")
+    return item
 
 
 @router.patch("/{employee_id}", response_model=EmployeeReferenceUpdate)
@@ -51,8 +52,9 @@ async def update_employee(
         employee: EmployeeReferenceUpdate,
 ) -> Any:
     employee_reference_repo: EmployeeReferenceRepo = EmployeeReferenceRepo(session)
-    await employee_reference_repo.update_employee(employee_id, employee)
+    result = await employee_reference_repo.update_employee(employee_id, employee)
     logger.info(f"Employee updated")
+    return result
 
 
 @router.delete("/{employee_id}")
