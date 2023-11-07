@@ -95,9 +95,9 @@ export default function EmployerLogin({history, match}) {
                                 flexDirection: 'column',
                                 gap: '1em'
                             }}>
-                                <IonInput clearInput autoCapitalize={'sentences'} autocomplete={'family-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, surname: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Фамилия'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
-                                <IonInput clearInput autoCapitalize={'sentences'} autocomplete={'given-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, name: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Имя'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
-                                <IonInput clearInput autoCapitalize={'sentences'} autocomplete={'additional-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, fatherName: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Отчество'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput minlength={2} clearInput autoCapitalize={'sentences'} autocomplete={'family-name'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, surname: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Фамилия'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput minlength={2} clearInput autoCapitalize={'sentences'} autocomplete={'given-name'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, name: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Имя'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput minlength={2} clearInput autoCapitalize={'sentences'} autocomplete={'additional-name'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, fatherName: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Отчество'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
 
                             </div>
                         </div>
