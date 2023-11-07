@@ -12,7 +12,9 @@ import {
 } from "@ionic/react";
 import {useEffect, useState} from "react";
 import Task from "./Task.tsx";
-export default function Tasks(){
+import {useCookies} from "react-cookie";
+//@ts-ignore
+export default function Tasks({history}){
     const [items, setItems] = useState<{text: string, id: number}[]>([])
     // const userName = useAppSelector(state => state.userName.userName)
     const generateItems = () => {
@@ -22,7 +24,10 @@ export default function Tasks(){
         }
         setItems([...items, ...newItems])
     }
+    const [cookies] = useCookies(["role"])
     useEffect(() => {
+        console.log(JSON.stringify(cookies["role"]), "test")
+        if (JSON.stringify(cookies["role"]) !== "\"employer\"") history.push("/login")
         generateItems()
     }, []);
     function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
