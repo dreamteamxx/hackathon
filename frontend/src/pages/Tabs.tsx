@@ -11,9 +11,7 @@ export default function Tabs() {
         <IonTabs>
             <IonRouterOutlet>
                 <Redirect exact path={'/tabs'} to={'/tabs/tasks'}/>
-                <Route exact path={"/tabs/tasks"}>
-                   <Tasks/>
-                </Route>
+                <Route exact path={"/tabs/tasks"} component={Tasks}/>
                 <Route exact path={"/tabs/map"}>
                    <MapPage/>
                 </Route>

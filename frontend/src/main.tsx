@@ -6,6 +6,7 @@ import {Redirect, Route} from "react-router-dom";
 import {Provider} from 'react-redux';
 import store from "./store";
 import '@ionic/react/css/core.css'
+import {CookiesProvider} from "react-cookie";
 /* Basic CSS for apps built with Ionic */
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
@@ -24,27 +25,32 @@ import Login from "./pages/Login.tsx";
 import Error from "./pages/Error.tsx"
 import EmployerLogin from "./components/login/EmployerLogin.tsx";
 import Tabs from './pages/Tabs.tsx';
+import {StatusBar, Style} from "@capacitor/status-bar";
 
 setupIonicReact()
 
+StatusBar.setStyle({style: Style.Light});
+StatusBar.setOverlaysWebView({overlay: true})
 //todo возможно заменить react-responsive-redux на react-respinsive
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <Provider store={store}>
-            <IonApp>
-                <IonReactRouter>
-                    <IonRouterOutlet>
-                        <Route path={'/'} exact>
-                            <Redirect to={'/login'}/>
-                        </Route>
-                        <Route path={'/login'} exact component={Login}/>
-                        <Route path={'/login/:employerType'} component={EmployerLogin}/>
-                        <Route path={'/tabs'} render={() => <Tabs/>}/>
-                        <Route component={Error}/>
-                    </IonRouterOutlet>
-                </IonReactRouter>
-            </IonApp>
-        </Provider>
+        <CookiesProvider>
+            <Provider store={store}>
+                <IonApp>
+                    <IonReactRouter>
+                        <IonRouterOutlet>
+                            <Route path={'/'} exact>
+                                <Redirect to={'/tabs'}/>
+                            </Route>
+                            <Route path={'/login'} exact component={Login}/>
+                            <Route path={'/login/:employerType'} component={EmployerLogin}/>
+                            <Route path={'/tabs'} render={() => <Tabs/>}/>
+                            <Route component={Error}/>
+                        </IonRouterOutlet>
+                    </IonReactRouter>
+                </IonApp>
+            </Provider>
+        </CookiesProvider>
     </React.StrictMode>
 )

@@ -14,6 +14,7 @@ import {setUserName} from "../../store/slices/userNameSlice.ts";
 import CircleIonButton from "../buttons/circleIonButton/CircleIonButton.tsx";
 import PrimaryIonButton from "../buttons/PrimaryIonButton/PrimaryIonButton.tsx";
 import {App} from "@capacitor/app";
+import {useCookies} from "react-cookie";
 // @ts-ignore
 export default function EmployerLogin({history, match}) {
     const [loginProperties, setLoginProperties] = useState<{
@@ -38,6 +39,8 @@ export default function EmployerLogin({history, match}) {
     }
     const userTypeDispatch = useAppDispatch()
     const userNameDispatch = useAppDispatch()
+    const [_, setCookie] = useCookies(["role"]);
+
     const handleNextButton:MouseEventHandler<HTMLIonButtonElement> = (e) => {
         e.preventDefault()
         setAllBlocked(true)
@@ -48,6 +51,8 @@ export default function EmployerLogin({history, match}) {
                 // @ts-ignore
                 humanaizedType: EmployerTypeName[match.params.employerType]
             }))
+            let cookieExipred = 1000 * 60 * 60 * 24 * 30
+            setCookie("role", match.params.employerType,{maxAge: cookieExipred, path: "/"})
             userNameDispatch(setUserName(`${loginProperties.surname} ${loginProperties.name} ${loginProperties.fatherName}`))
             setAllBlocked(false)
             history.push('/tabs')
@@ -55,6 +60,7 @@ export default function EmployerLogin({history, match}) {
     }
 
     useEffect(() => {
+        console.log(document.cookie)
         if (!loginProperties.name || !loginProperties.surname || !loginProperties.fatherName) return
         if (loginProperties.name?.toString().trim().length > 1 && loginProperties.surname?.toString().trim().length > 3 && loginProperties.fatherName.toString().trim().length > 3){
             setNextButtonDisabled(false)
