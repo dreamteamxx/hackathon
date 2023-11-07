@@ -56,7 +56,7 @@ export default function EmployerLogin({history, match}) {
 
     useEffect(() => {
         if (!loginProperties.name || !loginProperties.surname || !loginProperties.fatherName) return
-        if (loginProperties.name?.toString().trim().length > 3 && loginProperties.surname?.toString().trim().length > 3 && loginProperties.fatherName.toString().trim().length > 3){
+        if (loginProperties.name?.toString().trim().length > 1 && loginProperties.surname?.toString().trim().length > 3 && loginProperties.fatherName.toString().trim().length > 3){
             setNextButtonDisabled(false)
         }
     }, [loginProperties]);
@@ -95,9 +95,9 @@ export default function EmployerLogin({history, match}) {
                                 flexDirection: 'column',
                                 gap: '1em'
                             }}>
-                                <IonInput autoCapitalize={'sentences'} autocomplete={'family-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, surname: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Фамилия'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
-                                <IonInput autoCapitalize={'sentences'} autocomplete={'given-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, name: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Имя'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
-                                <IonInput autoCapitalize={'sentences'} autocomplete={'additional-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, fatherName: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Отчество'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput clearInput autoCapitalize={'sentences'} autocomplete={'family-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, surname: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Фамилия'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput clearInput autoCapitalize={'sentences'} autocomplete={'given-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, name: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Имя'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput clearInput autoCapitalize={'sentences'} autocomplete={'additional-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, fatherName: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Отчество'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
 
                             </div>
                         </div>
