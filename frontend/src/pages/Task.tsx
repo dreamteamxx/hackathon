@@ -99,7 +99,7 @@ export default function Task({itemIndex, taskData}){
                         </div>
                     </IonItem>
                 </IonList>
-                <div style={{position: "absolute", bottom: 0, left:0, display: "flex", minWidth: '98%', justifyContent: 'space-between', paddingBottom: '.5em', gap: "1em"}}>
+                <div style={{position: "absolute", bottom: 0, left:0, display: "flex", minWidth: '99%', justifyContent: 'space-between', paddingBottom: '.5em', gap: "1em"}}>
                     <PrimaryIonButton mode={'md'} id={'open-success-toast'} style={{minWidth: "100%"}} wrapperStyle={{minWidth: "100%"}} strong>
                         Выполнено
                     </PrimaryIonButton>
