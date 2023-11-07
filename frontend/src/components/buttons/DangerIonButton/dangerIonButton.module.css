@@ -1,0 +1,7 @@
+.dangerButton ion-button{
+    --border-radius: 15px;
+    --background: #E31E25;
+    --background-activated: #ac0f15;
+    --padding-top: 20px;
+    --padding-bottom: 20px
+}

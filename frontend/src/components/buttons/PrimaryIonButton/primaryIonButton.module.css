@@ -1,0 +1,7 @@
+.primaryButton ion-button{
+    --border-radius: 15px;
+    --background: #1D4688;;
+    --background-activated: #173568;;
+    --padding-top: 20px;
+    --padding-bottom: 20px
+}
