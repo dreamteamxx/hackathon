@@ -9,16 +9,25 @@ import {
     IonButtons
 } from "@ionic/react";
 import {useRef} from "react";
-import {useAppSelector} from "../hooks/storeHooks.ts";
-import {chevronBack} from "ionicons/icons";
-import DangerIonButton from "../components/buttons/DangerIonButton/DangerIonButton.tsx";
+import {chevronBack, callOutline, chatbubbleEllipsesOutline, locationOutline} from "ionicons/icons";
 import PrimaryIonButton from "../components/buttons/PrimaryIonButton/PrimaryIonButton.tsx";
+import InvisibleIonButton from "../components/buttons/invisibleIonButton/InvisibleIonButton.tsx";
+import {useAppSelector} from "../hooks/storeHooks.ts";
+import {App} from "@capacitor/app";
 //@ts-ignore
 export default function Task({itemIndex, taskData}){
     const modal = useRef<HTMLIonModalElement>(null);
     const userName = useAppSelector(state => state.userName.userName)
+    App.addListener('backButton', () => {
+        if (!modal.current) return
+        modal.current.dismiss()
+    })
     return(
-        <IonModal key={"10" + String(itemIndex)} ref={modal} trigger={`open-modal-${itemIndex}`}>
+        <IonModal
+            key={"10" + String(itemIndex)}
+            ref={modal}
+            trigger={`open-modal-${itemIndex}`}
+        >
             <IonHeader mode={'md'}>
                 <IonToolbar mode={'md'}>
                     <div style={{
@@ -80,30 +89,41 @@ export default function Task({itemIndex, taskData}){
                             gap: '1em'
                         }}>
                             <p><strong>Коментарий</strong></p>
-                            <p>Пиво захвати)</p>
+                            <p>комент</p>
                         </div>
                     </IonItem>
                     <IonItem>
                         <div>
                             <p><strong>Продукт</strong></p>
-                            <p>🔥Реалистичный фаллоимитатор фаллос-страпон с подогревом</p>
+                            <p>карта</p>
                         </div>
                     </IonItem>
                 </IonList>
-                <div style={{position: "absolute", bottom: 0, left:0, display: "flex", minWidth: '94%', justifyContent: 'space-between', paddingBottom: '.5em', gap: "1em"}}>
-                    <PrimaryIonButton mode={'md'} id={'open-success-toast'} wrapperStyle={{minWidth: "50%"}} style={{minWidth: "100%"}} strong>
+                <div style={{position: "absolute", bottom: 0, left:0, display: "flex", minWidth: '98%', justifyContent: 'space-between', paddingBottom: '.5em', gap: "1em"}}>
+                    <PrimaryIonButton mode={'md'} id={'open-success-toast'} style={{minWidth: "100%"}} wrapperStyle={{minWidth: "100%"}} strong>
                         Выполнено
                     </PrimaryIonButton>
-                    <DangerIonButton mode={'md'} id={'open-loose-toast'} wrapperStyle={{minWidth: "50%"}} style={{minWidth: "100%"}} strong>
-                        Перенести
-                    </DangerIonButton>
                 </div>
                 <IonToast trigger={'open-success-toast'} message={'Связь с сервером не установлена'} duration={1000}></IonToast>
-                <IonToast trigger={'open-loose-toast'} message={'Хуй те а не перенос'} duration={1000}></IonToast>
             </IonContent>
             <IonFooter>
                 <IonToolbar>
-
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        paddingLeft: "1em",
+                        paddingRight: "1em"
+                    }}>
+                        <InvisibleIonButton size={'large'} href={'tel:79774039527'}>
+                            <IonIcon size={'large'} style={{color: 'black'}} slot={'icon-only'} icon={callOutline}/>
+                        </InvisibleIonButton>
+                        <InvisibleIonButton size={'large'} href={'sms:79774039527'}>
+                            <IonIcon size={'large'} style={{color: 'black'}} slot={'icon-only'} icon={chatbubbleEllipsesOutline}/>
+                        </InvisibleIonButton>
+                        <InvisibleIonButton size={'large'} href={'geo:124.028582,-29.201930'}>
+                            <IonIcon size={'large'} style={{color: 'black'}} slot={'icon-only'} icon={locationOutline}/>
+                        </InvisibleIonButton>
+                    </div>
                 </IonToolbar>
             </IonFooter>
         </IonModal>

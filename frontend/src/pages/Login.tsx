@@ -2,7 +2,9 @@ import {IonContent, IonImg, IonPage} from "@ionic/react";
 import sovkombankLogo from "../assets/sovcombank.png"
 import PrimaryIonButton from "../components/buttons/PrimaryIonButton/PrimaryIonButton";
 import DangerIonButton from "../components/buttons/DangerIonButton/DangerIonButton.tsx";
-export default function Login() {
+// import {StatusBar} from "@capacitor/status-bar"
+// @ts-ignore
+export default function Login({history}) {
     return (
         <IonPage>
             <IonContent>
@@ -15,7 +17,8 @@ export default function Login() {
                         minHeight: "100%",
                         paddingLeft: "2em",
                         paddingRight: "2em",
-                        gap: '2em'
+                        gap: '2em',
+                        paddingBottom: "5em"
                 }}>
                     <IonImg
                         src={sovkombankLogo}
