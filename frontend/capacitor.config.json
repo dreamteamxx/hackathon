@@ -1,7 +1,6 @@
 {
   "appId": "io.ionic.hackathon4",
   "appName": "hackathon4",
-  "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "dist",
   "cordova": {},

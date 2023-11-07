@@ -13,6 +13,7 @@ import {useAppDispatch} from "../../hooks/storeHooks.ts";
 import {setUserName} from "../../store/slices/userNameSlice.ts";
 import CircleIonButton from "../buttons/circleIonButton/CircleIonButton.tsx";
 import PrimaryIonButton from "../buttons/PrimaryIonButton/PrimaryIonButton.tsx";
+import {App} from "@capacitor/app";
 // @ts-ignore
 export default function EmployerLogin({history, match}) {
     const [loginProperties, setLoginProperties] = useState<{
@@ -26,6 +27,10 @@ export default function EmployerLogin({history, match}) {
     })
     const [isNextButtonDisabled, setNextButtonDisabled] = useState(true)
     const [isAllBlocked, setAllBlocked] = useState(false)
+
+    App.addListener('backButton', () => {
+        window.history.back()
+    })
 
     enum EmployerTypeName{
         manager = "Менеджер",
@@ -90,9 +95,9 @@ export default function EmployerLogin({history, match}) {
                                 flexDirection: 'column',
                                 gap: '1em'
                             }}>
-                                <IonInput disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, surname: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Фамилия'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
-                                <IonInput disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, name: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Имя'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
-                                <IonInput disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, fatherName: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Отчество'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput autoCapitalize={'sentences'} autocomplete={'family-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, surname: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Фамилия'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput autoCapitalize={'sentences'} autocomplete={'given-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, name: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Имя'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput autoCapitalize={'sentences'} autocomplete={'additional-name'} disabled={isAllBlocked} onIonChange={(e) => setLoginProperties({...loginProperties, fatherName: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Отчество'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
 
                             </div>
                         </div>
