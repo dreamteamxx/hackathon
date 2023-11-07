@@ -26,7 +26,6 @@ export default function Tasks({history}){
     }
     const [cookies] = useCookies(["role"])
     useEffect(() => {
-        console.log(JSON.stringify(cookies["role"]), "test")
         if (JSON.stringify(cookies["role"]) !== "\"employer\"") history.push("/login")
         generateItems()
     }, []);
