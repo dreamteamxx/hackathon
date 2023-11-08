@@ -1,6 +1,6 @@
 import logging
 
-from sqlalchemy import select, update, delete
+from sqlalchemy import select, delete
 from sqlalchemy.exc import IntegrityError
 
 from app import models
@@ -12,12 +12,12 @@ class EmployeeReferenceRepo(SQLAlchemyRepo):
     async def get_employee(self, employee_reference_id: int) -> EmployeeReferenceRead | None:
         stmt = await self.session.scalars(select(models.EmployeeReference).where(
             models.EmployeeReference.id == employee_reference_id))
-        result = await stmt.first()
+        result = stmt.first()
         return models.EmployeeReference.to_dto(result) if result else None
 
     async def get_employees(self) -> list[EmployeeReferenceRead] | None:
         stmt = await self.session.scalars(select(models.EmployeeReference))
-        result = await stmt.all()
+        result = stmt.all()
         return list(map(models.EmployeeReference.to_dto, result)) if result else None
 
     async def create_employee(self, employee_reference: EmployeeReferenceCreate) -> EmployeeReferenceCreate:
