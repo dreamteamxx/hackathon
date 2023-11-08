@@ -4,6 +4,7 @@ from sqlalchemy import select, update, delete
 from sqlalchemy.dialects.postgresql import insert
 
 from app import models
+from app.models import TasksReference
 from app.repositories.repo import SQLAlchemyRepo
 from app.schemas import TasksReferenceUpdate, TasksReferenceCreate, TasksReferenceRead
 
@@ -13,14 +14,15 @@ logger = logging.getLogger(__name__)
 class TaskReferenceRepo(SQLAlchemyRepo):
     async def get_tasks_references(self) -> list[TasksReferenceRead] | None:
         stmt = await self.session.scalars(select(models.TasksReference))
-        result = await stmt.all()
+        result = stmt.all()
         return list(map(models.TasksReference.to_dto, result)) if result else None
 
-    async def create_task_reference(self, task_reference: TasksReferenceCreate) -> None:
-        stmt = insert(models.TasksReference).values(**task_reference.model_dump())
+    async def create_task_reference(self, task_reference: TasksReference) -> TasksReference:
         try:
-            await self.session.execute(stmt)
+            self.session.add(task_reference)
             await self.session.commit()
+            return task_reference
+
         except Exception as e:
             logger.error(f"Error creating task_reference: {e}")
             await self.session.rollback()

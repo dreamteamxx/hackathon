@@ -4,6 +4,7 @@ from sqlalchemy import select, update, delete
 from sqlalchemy.dialects.postgresql import insert
 
 from app import models
+from app.models import TaskDistribution
 from app.repositories.repo import SQLAlchemyRepo
 from app.schemas import TaskDistributionCreate, TaskDistributionRead, TaskDistributionUpdate
 
@@ -13,14 +14,15 @@ logger = logging.getLogger(__name__)
 class TaskDistributionRepo(SQLAlchemyRepo):
     async def get_task_distributions(self) -> list[TaskDistributionRead] | None:
         stmt = await self.session.scalars(select(models.TaskDistribution))
-        result = await stmt.all()
+        result = stmt.all()
         return list(map(models.TaskDistribution.to_dto, result)) if result else None
 
-    async def create_task_distribution(self, task_distribution: TaskDistributionCreate) -> None:
-        stmt = insert(models.TaskDistribution).values(**task_distribution.model_dump())
+    async def create_task_distribution(self, task_distribution: TaskDistribution) -> TaskDistribution:
         try:
-            await self.session.execute(stmt)
+            self.session.add(task_distribution)
             await self.session.commit()
+            return task_distribution
+
         except Exception as e:
             logger.error(f"Error creating task_distribution: {e}")
             await self.session.rollback()

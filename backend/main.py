@@ -1,4 +1,4 @@
-from app.core.logger import logger
+from app.core.config import logger
 from app.factory import create_app
 
 app = create_app()

@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 from starlette.responses import Response
 
 from app.deps.db import get_async_session
+from app.models import EmployeeReference
 from app.repositories.employee_reference import EmployeeReferenceRepo
 from app.schemas import EmployeeReferenceRead, EmployeeReferenceCreate, EmployeeReferenceUpdate
 
@@ -32,16 +33,16 @@ async def get_employees(
     return employees
 
 
-@router.post("", response_model=EmployeeReferenceCreate)
+@router.post("", response_model=EmployeeReferenceRead)
 async def create_employee(
-        response: Response,
         session: SessionDB,
         employee: EmployeeReferenceCreate,
 ) -> Any:
+    employee_reference = EmployeeReference(**employee.model_dump())
     employee_reference_repo: EmployeeReferenceRepo = EmployeeReferenceRepo(session)
-    item: EmployeeReferenceCreate = await employee_reference_repo.create_employee(employee)
+    employee_reference = await employee_reference_repo.create_employee(employee_reference)
     logger.info(f"Employee created")
-    return item
+    return employee_reference
 
 
 @router.patch("/{employee_id}", response_model=EmployeeReferenceUpdate)

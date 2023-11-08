@@ -4,6 +4,7 @@ from sqlalchemy import select, delete
 from sqlalchemy.exc import IntegrityError
 
 from app import models
+from app.models import EmployeeReference
 from app.repositories.repo import SQLAlchemyRepo
 from app.schemas import EmployeeReferenceRead, EmployeeReferenceCreate, EmployeeReferenceUpdate
 
@@ -20,11 +21,11 @@ class EmployeeReferenceRepo(SQLAlchemyRepo):
         result = stmt.all()
         return list(map(models.EmployeeReference.to_dto, result)) if result else None
 
-    async def create_employee(self, employee_reference: EmployeeReferenceCreate) -> EmployeeReferenceCreate:
+    async def create_employee(self, employee_reference: EmployeeReference) -> EmployeeReference:
         try:
             self.session.add(employee_reference)
             await self.session.commit()
-            return await self.get_employee(employee_reference.id)
+            return employee_reference
         except Exception as e:
             logging.error(f"Error creating employee_reference: {e}")
             await self.session.rollback()

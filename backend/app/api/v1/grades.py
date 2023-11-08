@@ -10,6 +10,8 @@ from app.deps.db import get_async_session
 from app.repositories.grade import GradeRepo
 from app.schemas import GradeRead, GradeCreate, GradeUpdate
 
+from app.models import Grade
+
 router = APIRouter(prefix="/grades")
 
 logger = logging.getLogger(__name__)
@@ -32,16 +34,16 @@ async def get_grades(
     return grades
 
 
-@router.post("", response_model=GradeCreate)
+@router.post("", response_model=GradeRead)
 async def create_grade(
-        response: Response,
         session: SessionDB,
-        grade: GradeCreate,
+        grade_in: GradeCreate,
 ) -> Any:
+    grade = Grade(**grade_in.model_dump())
     grade_repo: GradeRepo = GradeRepo(session)
-    result = await grade_repo.create_grade(grade)
+    grade = await grade_repo.create_grade(grade)
     logger.info(f"Grade created")
-    return result
+    return grade
 
 
 @router.patch("/{grade_id}", response_model=GradeUpdate)
@@ -52,9 +54,11 @@ async def update_grade(
         grade: GradeUpdate,
 ) -> Any:
     grade_repo: GradeRepo = GradeRepo(session)
-    result = await grade_repo.update_grade(grade_id, grade)
+    grade_object = Grade(**grade.model_dump())
+    grade: GradeRead = await grade_repo.update_grade(grade_id, grade_object)
+
     logger.info(f"Grade updated")
-    return result
+    return grade
 
 
 @router.delete("/{grade_id}")

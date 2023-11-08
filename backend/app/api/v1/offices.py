@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 from starlette.responses import Response
 
 from app.deps.db import get_async_session
+from app.models import Office
 from app.repositories.office import OfficeRepo
 from app.schemas import OfficeRead, OfficeCreate, OfficeUpdate
 
@@ -32,15 +33,16 @@ async def get_offices(
     return offices
 
 
-@router.post("", response_model=OfficeCreate)
+@router.post("", response_model=OfficeRead)
 async def create_office(
-        response: Response,
         session: SessionDB,
         office: OfficeCreate,
 ) -> Any:
+    office = Office(**office.model_dump())
     office_repo: OfficeRepo = OfficeRepo(session)
-    await office_repo.create_office(office)
+    office = await office_repo.create_office(office)
     logger.info(f"Office created")
+    return office
 
 
 @router.patch("/{office_id}", response_model=OfficeUpdate)

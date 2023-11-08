@@ -34,13 +34,13 @@ async def get_tasks_reference(
 
 @router.post("", response_model=TasksReferenceCreate)
 async def create_task_reference(
-        response: Response,
         session: SessionDB,
         task_reference: TasksReferenceCreate,
 ) -> Any:
     task_reference_repo: TaskReferenceRepo = TaskReferenceRepo(session)
-    await task_reference_repo.create_task_reference(task_reference)
+    task_reference = await task_reference_repo.create_task_reference(task_reference)
     logger.info(f"TaskReference created")
+    return task_reference
 
 
 @router.patch("/{task_reference_id}", response_model=TasksReferenceUpdate)

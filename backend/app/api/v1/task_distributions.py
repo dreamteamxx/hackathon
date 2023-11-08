@@ -32,15 +32,15 @@ async def get_task_distributions(
     return task_distributions
 
 
-@router.post("", response_model=TaskDistributionCreate)
+@router.post("", response_model=TaskDistributionRead)
 async def create_task_distribution(
-        response: Response,
         session: SessionDB,
         task_distribution: TaskDistributionCreate,
 ) -> Any:
     task_distribution_repo: TaskDistributionRepo = TaskDistributionRepo(session)
-    await task_distribution_repo.create_task_distribution(task_distribution)
+    task_distribution = await task_distribution_repo.create_task_distribution(task_distribution)
     logger.info(f"TaskDistribution created")
+    return task_distribution
 
 
 @router.patch("/{task_distribution_id}", response_model=TaskDistributionUpdate)

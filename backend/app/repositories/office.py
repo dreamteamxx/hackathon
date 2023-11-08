@@ -1,12 +1,12 @@
 import logging
 
 from sqlalchemy import select, update, delete
-from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import IntegrityError
 
 from app import models
+from app.models import Office
 from app.repositories.repo import SQLAlchemyRepo
-from app.schemas import OfficeRead, OfficeUpdate, OfficeCreate
+from app.schemas import OfficeRead, OfficeUpdate
 
 logger = logging.getLogger(__name__)
 
@@ -14,14 +14,14 @@ logger = logging.getLogger(__name__)
 class OfficeRepo(SQLAlchemyRepo):
     async def get_offices(self) -> list[OfficeRead] | None:
         stmt = await self.session.scalars(select(models.Office))
-        result = await stmt.all()
+        result = stmt.all()
         return list(map(models.Office.to_dto, result)) if result else None
 
-    async def create_office(self, office: OfficeCreate) -> None:
-        stmt = insert(models.Office).values(**office.model_dump())
+    async def create_office(self, office: Office) -> Office:
         try:
-            await self.session.execute(stmt)
+            self.session.add(office)
             await self.session.commit()
+            return office
         except Exception as e:
             logger.error(f"Error creating office: {e}")
             await self.session.rollback()
@@ -35,7 +35,7 @@ class OfficeRepo(SQLAlchemyRepo):
             logger.error(f"Error updating office: {e}")
             await self.session.rollback()
 
-    async def delete_office(self,office_id: int) -> None:
+    async def delete_office(self, office_id: int) -> None:
         stmt = delete(models.Office).where(models.Office.id == office_id)
         try:
             await self.session.execute(stmt)
