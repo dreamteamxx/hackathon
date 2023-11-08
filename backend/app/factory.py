@@ -42,7 +42,7 @@ def create_app():
     app.openapi = custom_openapi
     setup_routers(app, fastapi_users)
     setup_cors_middleware(app)
-    serve_static_app(app)
+    # serve_static_app(app)
     return app
 
 

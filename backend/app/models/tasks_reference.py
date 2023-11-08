@@ -1,5 +1,7 @@
+from typing import List
+
 from sqlalchemy import String, Integer, BigInteger
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app import schemas
 from app.db import Base
@@ -16,8 +18,7 @@ class TasksReference(Base):
     execution_time: Mapped[int] = mapped_column(
         Integer, nullable=False, comment="Execution time in seconds"
     )
-    condition_1: Mapped[str] = mapped_column(String, nullable=False)
-    condition_2: Mapped[str] = mapped_column(String, nullable=True)
+    conditions: Mapped[List["Condition"]] = relationship()
     min_employee_level: Mapped[int] = mapped_column(Integer, nullable=False)
 
     def to_dto(self) -> schemas.TasksReferenceRead:

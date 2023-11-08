@@ -12,7 +12,7 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python
     ln -s /opt/poetry/bin/poetry && \
     poetry config virtualenvs.create false
 
-COPY pyproject.toml ./poetry.lock* /app/
+COPY ./pyproject.toml ./poetry.lock* /app/
 
 RUN poetry install --no-root
 
@@ -26,4 +26,4 @@ COPY --from=base /app /app
 COPY --from=base /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
 COPY --from=base /usr/local/bin /usr/local/bin
 
-CMD gunicorn main:app --workers 8 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+CMD uvicorn --host 0.0.0.0 --port 8000 main:app

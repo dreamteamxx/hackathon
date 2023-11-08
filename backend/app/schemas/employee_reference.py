@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 
-from app.schemas import GradeRead
+from app import schemas
 
 
 class EmployeeReferenceCreate(BaseModel):
@@ -15,6 +15,6 @@ class EmployeeReferenceUpdate(EmployeeReferenceCreate):
 
 class EmployeeReferenceRead(EmployeeReferenceCreate):
     id: int
-    grade: GradeRead
+    grade: schemas.GradeRead
 
     model_config = ConfigDict(from_attributes=True)

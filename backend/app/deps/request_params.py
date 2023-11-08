@@ -5,7 +5,7 @@ from fastapi import HTTPException, Query
 from sqlalchemy import UnaryExpression, asc, desc
 
 from app.db import Base
-from app.schemas.request_params import RequestParams
+from app import RequestParams
 
 
 def parse_react_admin_params(model: Type[Base]) -> Callable:

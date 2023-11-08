@@ -1,6 +1,6 @@
 import logging
 
-from app.utils.mapbox_client import MapboxClient
+from app.utils.mapbox.mapbox_client import MapboxClient
 
 logger = logging.getLogger(__name__)
 

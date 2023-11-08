@@ -11,8 +11,7 @@ from app.core.config import settings
 from app.errors import consts
 from app.models import User
 from app.overrides.db import SQLAlchemyUserDB
-from app.schemas.msg import VerifyToken, TelegramVerify
-from app.schemas.user import UserRead, UserCreate
+from app.schemas.user import UserCreate
 
 logger = logging.getLogger(__name__)
 
@@ -42,10 +41,10 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
     # override create method to add user to database
     async def create(
-        self,
-        user_create: schemas.UC,
-        safe: bool = False,
-        request: Optional[Request] = None,
+            self,
+            user_create: schemas.UC,
+            safe: bool = False,
+            request: Optional[Request] = None,
     ) -> models.UP:
         """
         Create a user in database.
@@ -86,46 +85,8 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         logger.info(f"User {user.id} has registered.")
         await self.request_verify(user, request)
 
-    async def request_verify(
-        self, user: User, request: Optional[Request] = None
-    ) -> VerifyToken:
-        """
-        Request a verification token for a user to validate their Telegram account.
-        """
-        if not user.is_active:
-            raise exceptions.UserInactive()
-        if user.is_verified:
-            raise exceptions.UserAlreadyVerified()
-        token = ""  # temporary
-        return await self.on_after_request_verify(user, token, request)
-
-    async def on_after_request_verify(
-        self, user: User, token: str, request: Optional[Request] = None
-    ) -> VerifyToken:
-        logger.info(f"User {user.id} has requested a verification token.")
-        self.user_db: SQLAlchemyUserDB
-        token = str(uuid.uuid4())
-        token = await self.user_db.save_telegram_auth_token(token, user)
-        return VerifyToken(
-            token=token, link=f"https://t.me/{settings.BOT_USERNAME}?start={token}"
-        )
-
-    async def verify(
-        self, user_verify: TelegramVerify, request: Optional[Request] = None
-    ) -> UserRead:
-        """
-        Verify a user with a verification token.
-        """
-        logger.debug(f"Verifying user {user_verify}.")
-        self.user_db: SQLAlchemyUserDB
-        user = await self.user_db.get_by_verify_token(user_verify.token)
-        if not user:
-            raise exceptions.InvalidVerifyToken()
-        user: User = await self.user_db.verify_user(user, user_verify.user_id)
-        return user.to_dto()
-
     async def authenticate(
-        self, credentials: OAuth2PasswordRequestForm
+            self, credentials: OAuth2PasswordRequestForm
     ) -> Optional[models.UP]:
         self.user_db: SQLAlchemyUserDB
         try:
