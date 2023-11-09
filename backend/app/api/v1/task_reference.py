@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 from starlette.responses import Response
 
 from app.deps.db import get_async_session
+from app.models import TasksReference
 from app.repositories.task_reference import TaskReferenceRepo
 from app.schemas import TasksReferenceRead, TasksReferenceCreate, TasksReferenceUpdate
 
@@ -32,11 +33,12 @@ async def get_tasks_reference(
     return tasks_reference
 
 
-@router.post("", response_model=TasksReferenceCreate)
+@router.post("", response_model=TasksReferenceRead)
 async def create_task_reference(
         session: SessionDB,
         task_reference: TasksReferenceCreate,
 ) -> Any:
+    task_reference = TasksReference(**task_reference.model_dump())
     task_reference_repo: TaskReferenceRepo = TaskReferenceRepo(session)
     task_reference = await task_reference_repo.create_task_reference(task_reference)
     logger.info(f"TaskReference created")

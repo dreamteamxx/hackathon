@@ -51,11 +51,11 @@ async def update_grade(
         grade_id: int,
         response: Response,
         session: SessionDB,
-        grade: GradeUpdate,
+        grade: GradeCreate,
 ) -> Any:
     grade_repo: GradeRepo = GradeRepo(session)
-    grade_object = Grade(**grade.model_dump())
-    grade: GradeRead = await grade_repo.update_grade(grade_id, grade_object)
+    grade_object = GradeUpdate(**grade.model_dump())
+    grade = await grade_repo.update_grade(grade_id, grade_object)
 
     logger.info(f"Grade updated")
     return grade

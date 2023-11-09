@@ -39,13 +39,11 @@ class GradeRepo(SQLAlchemyRepo):
             logger.error(f"Error creating grade: {e}")
             await self.session.rollback()
 
-    async def update_grade(self, grade_id: int, grade_new: Grade):
-        grade = await self.get_grade(grade_id)
-        if not grade:
-            raise HTTPException(status_code=404, detail="Grade not found")
-        self.session.merge(grade_new)
+    async def update_grade(self, grade_id: int, grade_new: GradeUpdate) -> GradeUpdate:
+        stmt = update(Grade).where(Grade.id == grade_id).values(**grade_new.model_dump())
+        await self.session.execute(stmt)
         await self.session.commit()
-        return grade
+        return grade_new
 
     async def delete_grade(self, grade_id: int) -> None:
         stmt = delete(models.Grade).where(models.Grade.id == grade_id)

@@ -53,8 +53,11 @@ async def update_office(
         office: OfficeUpdate,
 ) -> Any:
     office_repo: OfficeRepo = OfficeRepo(session)
-    await office_repo.update_office(office_id, office)
+    office_object = OfficeUpdate(**office.model_dump())
+    office = await office_repo.update_office(office_id, office_object)
+
     logger.info(f"Office updated")
+    return office
 
 
 @router.delete("/{office_id}")

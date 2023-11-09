@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 from starlette.responses import Response
 
 from app.deps.db import get_async_session
+from app.models import TaskDistribution
 from app.repositories.task_distribution import TaskDistributionRepo
 from app.schemas import TaskDistributionRead, TaskDistributionCreate, TaskDistributionUpdate
 
@@ -38,6 +39,7 @@ async def create_task_distribution(
         task_distribution: TaskDistributionCreate,
 ) -> Any:
     task_distribution_repo: TaskDistributionRepo = TaskDistributionRepo(session)
+    task_distribution = TaskDistribution(**task_distribution.model_dump())
     task_distribution = await task_distribution_repo.create_task_distribution(task_distribution)
     logger.info(f"TaskDistribution created")
     return task_distribution

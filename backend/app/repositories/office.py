@@ -26,14 +26,11 @@ class OfficeRepo(SQLAlchemyRepo):
             logger.error(f"Error creating office: {e}")
             await self.session.rollback()
 
-    async def update_office(self, office_id: int, office: OfficeUpdate) -> None:
-        stmt = update(models.Office).where(models.Office.id == office_id).values(**office.model_dump())
-        try:
-            await self.session.execute(stmt)
-            await self.session.commit()
-        except IntegrityError as e:
-            logger.error(f"Error updating office: {e}")
-            await self.session.rollback()
+    async def update_office(self, office_id: int, office: OfficeUpdate) -> OfficeUpdate:
+        stmt = update(Office).where(Office.id == office_id).values(**office.model_dump())
+        await self.session.execute(stmt)
+        await self.session.commit()
+        return office
 
     async def delete_office(self, office_id: int) -> None:
         stmt = delete(models.Office).where(models.Office.id == office_id)
