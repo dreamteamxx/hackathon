@@ -13,8 +13,10 @@ export default function MapPage(){
                     </IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
-                <MapboxMap/>
+            <IonContent fullscreen={true}>
+                <div style={{minHeight: "100%"}}>
+                    <MapboxMap/>
+                </div>
                 {/*<div style={{*/}
                 {/*    display: 'flex',*/}
                 {/*    flexDirection: "column",*/}
