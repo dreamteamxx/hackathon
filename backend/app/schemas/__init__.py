@@ -6,6 +6,7 @@ from .employee_reference import (
     EmployeeReferenceUpdate,
 )
 from .office import OfficeRead, OfficeCreate, OfficeUpdate
+from .point import PointRead, PointCreate, PointUpdate
 from .task_distribution import (
     TaskDistributionRead,
     TaskDistributionCreate,
