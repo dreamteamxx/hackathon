@@ -33,14 +33,17 @@ async def get_tasks_reference(
     return tasks_reference
 
 
-@router.post("", response_model=TasksReferenceRead)
+@router.post("", response_model=TasksReferenceCreate)
 async def create_task_reference(
         session: SessionDB,
         task_reference: TasksReferenceCreate,
 ) -> Any:
-    task_reference = TasksReference(**task_reference.model_dump())
     task_reference_repo: TaskReferenceRepo = TaskReferenceRepo(session)
-    task_reference = await task_reference_repo.create_task_reference(task_reference)
+    task = TasksReference(task_name=task_reference.task_name,
+                          priority=task_reference.priority,
+                          execution_time=task_reference.execution_time,
+                          min_employee_level=task_reference.min_employee_level)
+    task_reference = await task_reference_repo.create_task_reference(task)
     logger.info(f"TaskReference created")
     return task_reference
 

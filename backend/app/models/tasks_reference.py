@@ -22,4 +22,9 @@ class TasksReference(Base):
     min_employee_level: Mapped[int] = mapped_column(Integer, nullable=False)
 
     def to_dto(self) -> schemas.TasksReferenceRead:
-        return schemas.TasksReferenceRead.model_validate(self)
+        return schemas.TasksReferenceRead(
+            id=self.id,
+            task_name=self.task_name,
+            priority=self.priority,
+            execution_time=self.execution_time,
+        )

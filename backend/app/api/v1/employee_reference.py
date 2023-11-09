@@ -9,6 +9,8 @@ from starlette.responses import Response
 from app.deps.db import get_async_session
 from app.models import EmployeeReference
 from app.repositories.employee_reference import EmployeeReferenceRepo
+from app.repositories.grade import GradeRepo
+from app.repositories.office import OfficeRepo
 from app.schemas import EmployeeReferenceRead, EmployeeReferenceCreate, EmployeeReferenceUpdate
 
 router = APIRouter(prefix="/employees")
@@ -40,9 +42,9 @@ async def create_employee(
 ) -> Any:
     employee_reference = EmployeeReference(**employee.model_dump())
     employee_reference_repo: EmployeeReferenceRepo = EmployeeReferenceRepo(session)
-    employee_reference = await employee_reference_repo.create_employee(employee_reference)
+    result = await employee_reference_repo.create_employee(employee_reference)
     logger.info(f"Employee created")
-    return employee_reference
+    return result
 
 
 @router.patch("/{employee_id}", response_model=EmployeeReferenceUpdate)

@@ -19,6 +19,6 @@ class TasksReferenceUpdate(TasksReferenceCreate):
 
 class TasksReferenceRead(TasksReferenceCreate):
     id: int
-    conditions: List[ConditionRead]
+    conditions: None = None
 
     model_config = ConfigDict(from_attributes=True)

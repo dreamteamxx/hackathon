@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
@@ -12,6 +13,13 @@ logger = logging.getLogger(__name__)
 
 
 class OfficeRepo(SQLAlchemyRepo):
+    async def get_office(self, office_id: int) -> Optional[OfficeRead]:
+        query = await self.session.execute(
+            select(models.Office).where(models.Office.id == office_id)
+        )
+        result = query.scalars().first()
+        return result.to_dto() if result else None
+
     async def get_offices(self) -> list[OfficeRead] | None:
         stmt = await self.session.scalars(select(models.Office))
         result = stmt.all()
