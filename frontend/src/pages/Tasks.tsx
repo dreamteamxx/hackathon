@@ -4,19 +4,24 @@ import {
     IonCardSubtitle, IonCardTitle,
     IonChip,
     IonContent,
-    IonHeader,
+    IonHeader, IonIcon,
     IonRefresher,
-    IonRefresherContent,
+    IonRefresherContent, IonRippleEffect,
     IonTitle,
     IonToolbar, RefresherEventDetail
 } from "@ionic/react";
 import {useEffect, useState} from "react";
 import Task from "./Task.tsx";
 import {useCookies} from "react-cookie";
+import {personCircleOutline} from "ionicons/icons"
+import cl from "../css/IonFixes.module.css"
+import InvisibleIonButton from "../components/buttons/invisibleIonButton/InvisibleIonButton.tsx";
+import Profile from "../components/buttons/profile/Profile.tsx";
 //@ts-ignore
 export default function Tasks({history}){
     const [items, setItems] = useState<{text: string, id: number}[]>([])
-    // const userName = useAppSelector(state => state.userName.userName)
+    const [cookies] = useCookies(["role"])
+
     const generateItems = () => {
         const newItems = []
         for (let i = 0; i < 50; i++){
@@ -24,29 +29,45 @@ export default function Tasks({history}){
         }
         setItems([...items, ...newItems])
     }
-    const [cookies] = useCookies(["role"])
-    useEffect(() => {
-        if (JSON.stringify(cookies["role"]) !== "\"employer\"") history.push("/login")
-        generateItems()
-    }, []);
     function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
         setTimeout(() => {
             // Any calls to load data go here
             event.detail.complete();
         }, 2000);
     }
+
+    useEffect(() => {
+        if (JSON.stringify(cookies["role"]) !== "\"employer\"") history.push("/login")
+        generateItems()
+    }, []);
     return (
         <>
             <IonHeader mode={"md"}>
                 <IonToolbar mode={"md"}>
+
                     <div style={{
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "space-between"
                     }}>
-                        <IonTitle>
-                            <h1>Задачи</h1>
-                        </IonTitle>
+
+                        <div style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center"
+                        }}>
+                            <div style={{paddingLeft: "1em"}}>
+                                <IonTitle className={cl.clearLeftTitle}>
+                                    <h1 style={{display: "flex", marginBottom: 20, width: "fit-content", textAlign: "left"}}>Задачи</h1>
+                                </IonTitle>
+                            </div>
+                            <div style={{paddingRight: "1em"}}>
+                                <InvisibleIonButton size={'large'} id={'profile'}>
+                                    <IonRippleEffect/>
+                                    <IonIcon slot={'icon-only'} color={'dark'} size={'large'} icon={personCircleOutline}/>
+                                </InvisibleIonButton>
+                            </div>
+                        </div>
                         <div style={{
                             display: "flex",
                             justifyContent: 'center',
@@ -60,6 +81,7 @@ export default function Tasks({history}){
                 </IonToolbar>
             </IonHeader>
             <IonContent style={{maxHeight: "95%"}}>
+                <Profile/>
                 <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
                     <IonRefresherContent></IonRefresherContent>
                 </IonRefresher>

@@ -27,24 +27,26 @@ export default function Task({itemIndex, taskData}){
             key={"10" + String(itemIndex)}
             ref={modal}
             trigger={`open-modal-${itemIndex}`}
+            initialBreakpoint={0.25}
+            breakpoints={[0, 0.25, 0.5, 0.75]}
         >
-            <IonHeader mode={'md'}>
-                <IonToolbar mode={'md'}>
-                    <div style={{
-                        display: "flex",
-                        minWidth: "100%",
-                        alignItems: 'center'
-                    }}>
-                        <IonButtons>
-                            <IonButton style={{}} shape={'round'} color={'tertiary'} onClick={() => modal.current?.dismiss()}>
-                                <IonIcon slot={'icon-only'} icon={chevronBack}/>
-                            </IonButton>
-                        </IonButtons>
-                        {/*<Button shape={'circle'} type={'primary'} icon={<LeftOutlined />} onClick={() => modal.current?.dismiss()}/>*/}
-                        <IonTitle><h1 style={{paddingRight: "1.5em", marginBottom: 20}}>{taskData?.text}</h1></IonTitle>
-                    </div>
-                </IonToolbar>
-            </IonHeader>
+            {/*<IonHeader mode={'md'}>*/}
+            {/*    <IonToolbar mode={'md'}>*/}
+            {/*        <div style={{*/}
+            {/*            display: "flex",*/}
+            {/*            minWidth: "100%",*/}
+            {/*            alignItems: 'center'*/}
+            {/*        }}>*/}
+            {/*            <IonButtons>*/}
+            {/*                <IonButton style={{}} shape={'round'} color={'tertiary'} onClick={() => modal.current?.dismiss()}>*/}
+            {/*                    <IonIcon slot={'icon-only'} icon={chevronBack}/>*/}
+            {/*                </IonButton>*/}
+            {/*            </IonButtons>*/}
+            {/*            /!*<Button shape={'circle'} type={'primary'} icon={<LeftOutlined />} onClick={() => modal.current?.dismiss()}/>*!/*/}
+            {/*            <IonTitle><h1 style={{paddingRight: "1.5em", marginBottom: 20}}>{taskData?.text}</h1></IonTitle>*/}
+            {/*        </div>*/}
+            {/*    </IonToolbar>*/}
+            {/*</IonHeader>*/}
             <IonContent className="ion-padding" style={{position: "relative"}}>
                 <IonList>
                     <IonItem>
@@ -99,31 +101,32 @@ export default function Task({itemIndex, taskData}){
                         </div>
                     </IonItem>
                 </IonList>
-                <div style={{position: "absolute", bottom: 0, left:0, display: "flex", minWidth: '99%', justifyContent: 'space-between', paddingBottom: '.5em', gap: "1em"}}>
+                <div style={{ display: "flex", minWidth: '99%', justifyContent: 'space-between', paddingBottom: '.5em', gap: "1em"}}>
                     <PrimaryIonButton mode={'md'} id={'open-success-toast'} style={{minWidth: "100%"}} wrapperStyle={{minWidth: "100%"}} strong>
                         Выполнено
                     </PrimaryIonButton>
                 </div>
                 <IonToast trigger={'open-success-toast'} message={'Связь с сервером не установлена'} duration={1000}></IonToast>
+                <div style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    paddingLeft: "1em",
+                    paddingRight: "1em"
+                }}>
+                    <InvisibleIonButton size={'large'} href={'tel:79774039527'}>
+                        <IonIcon size={'large'} style={{color: 'black'}} slot={'icon-only'} icon={callOutline}/>
+                    </InvisibleIonButton>
+                    <InvisibleIonButton size={'large'} href={'sms:79774039527'}>
+                        <IonIcon size={'large'} style={{color: 'black'}} slot={'icon-only'} icon={chatbubbleEllipsesOutline}/>
+                    </InvisibleIonButton>
+                    <InvisibleIonButton size={'large'} href={'geo:124.028582,-29.201930'}>
+                        <IonIcon size={'large'} style={{color: 'black'}} slot={'icon-only'} icon={locationOutline}/>
+                    </InvisibleIonButton>
+                </div>
             </IonContent>
             <IonFooter>
                 <IonToolbar>
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        paddingLeft: "1em",
-                        paddingRight: "1em"
-                    }}>
-                        <InvisibleIonButton size={'large'} href={'tel:79774039527'}>
-                            <IonIcon size={'large'} style={{color: 'black'}} slot={'icon-only'} icon={callOutline}/>
-                        </InvisibleIonButton>
-                        <InvisibleIonButton size={'large'} href={'sms:79774039527'}>
-                            <IonIcon size={'large'} style={{color: 'black'}} slot={'icon-only'} icon={chatbubbleEllipsesOutline}/>
-                        </InvisibleIonButton>
-                        <InvisibleIonButton size={'large'} href={'geo:124.028582,-29.201930'}>
-                            <IonIcon size={'large'} style={{color: 'black'}} slot={'icon-only'} icon={locationOutline}/>
-                        </InvisibleIonButton>
-                    </div>
+
                 </IonToolbar>
             </IonFooter>
         </IonModal>
