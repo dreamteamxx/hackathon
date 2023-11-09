@@ -1,3 +1,7 @@
 .full-screen-toolbar ion-toolbar{
-    --opacity: 0.5;
+    --opacity: 0;
+}
+
+.clearLeftTitle ion-title.title-default {
+    padding-inline: 0;
 }
