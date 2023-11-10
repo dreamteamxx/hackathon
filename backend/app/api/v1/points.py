@@ -8,7 +8,9 @@ from starlette.responses import Response
 
 from app.deps.db import get_async_session
 from app.models.points import Point
-from app.schemas import PointRead
+from app.repositories.point import PointRepo
+
+from app.schemas import PointRead, PointCreate, PointUpdate
 
 router = APIRouter(prefix="/points")
 
@@ -24,32 +26,47 @@ async def get_points(
         skip: int = 0,
         limit: int = 100,
 ) -> Any:
-    return Point
+    point_repo: PointRepo = PointRepo(session)
+    points = await point_repo.get_points()
+    if not points:
+        logger.info(f"Points not found")
+        return []
+    return points
 
 
 @router.post("", response_model=PointRead)
 async def create_point(
         session: SessionDB,
-        point: PointRead,
+        point: PointCreate,
 ) -> Any:
+    point = Point(**point.model_dump())
+    point_repo: PointRepo = PointRepo(session)
+    point = await point_repo.create_point(point)
+    logger.info(f"Point created")
     return point
 
 
-@router.patch("/{point_id}", response_model=PointRead)
+@router.patch("/{point_id}", response_model=PointUpdate)
 async def update_point(
         point_id: int,
         response: Response,
         session: SessionDB,
         point: PointRead,
 ) -> Any:
+    point_repo: PointRepo = PointRepo(session)
+    point_object = PointUpdate(**point.model_dump())
+    point = await point_repo.update_point(point_id, point_object)
+
+    logger.info(f"Point updated")
     return point
 
 
-@router.delete("/{point_id}", response_model=PointRead)
+@router.delete("/{point_id}")
 async def delete_point(
         point_id: int,
         response: Response,
         session: SessionDB,
-        point: PointRead,
 ) -> Any:
-    return
+    point_repo: PointRepo = PointRepo(session)
+    await point_repo.delete_point(point_id)
+    logger.info(f"Point deleted")
