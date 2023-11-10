@@ -56,17 +56,17 @@ export default function Tasks({history}){
                             justifyContent: "space-between",
                             alignItems: "center"
                         }}>
-                            <div style={{paddingLeft: "1em"}}>
+                            {/*<div style={{paddingLeft: "1em"}}>*/}
                                 <IonTitle className={cl.clearLeftTitle}>
-                                    <h1 style={{display: "flex", marginBottom: 20, width: "fit-content", textAlign: "left"}}>Задачи</h1>
+                                    <h1>Задачи</h1>
                                 </IonTitle>
-                            </div>
-                            <div style={{paddingRight: "1em"}}>
-                                <InvisibleIonButton size={'large'} id={'profile'}>
-                                    <IonRippleEffect/>
-                                    <IonIcon slot={'icon-only'} color={'dark'} size={'large'} icon={personCircleOutline}/>
-                                </InvisibleIonButton>
-                            </div>
+                            {/*</div>*/}
+                            {/*<div style={{paddingRight: "1em"}}>*/}
+                            {/*    <InvisibleIonButton size={'large'} id={'profile'}>*/}
+                            {/*        <IonRippleEffect/>*/}
+                            {/*        <IonIcon slot={'icon-only'} color={'dark'} size={'large'} icon={personCircleOutline}/>*/}
+                            {/*    </InvisibleIonButton>*/}
+                            {/*</div>*/}
                         </div>
                         <div style={{
                             display: "flex",

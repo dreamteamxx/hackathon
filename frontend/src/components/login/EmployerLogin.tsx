@@ -18,13 +18,11 @@ import {useCookies} from "react-cookie";
 // @ts-ignore
 export default function EmployerLogin({history, match}) {
     const [loginProperties, setLoginProperties] = useState<{
-        name: string | number | null | undefined,
-        surname: string | number | null | undefined,
-        fatherName: string | number | null | undefined
+        username: string | number | null | undefined,
+        password: string | number | null | undefined
     }>({
-        name: '',
-        surname: '',
-        fatherName: ''
+        username: '',
+        password: '',
     })
     const [isNextButtonDisabled, setNextButtonDisabled] = useState(true)
     const [isAllBlocked, setAllBlocked] = useState(false)
@@ -53,7 +51,7 @@ export default function EmployerLogin({history, match}) {
             }))
             let cookieExipred = 1000 * 60 * 60 * 24 * 30
             setCookie("role", match.params.employerType,{maxAge: cookieExipred, path: "/"})
-            userNameDispatch(setUserName(`${loginProperties.surname} ${loginProperties.name} ${loginProperties.fatherName}`))
+            userNameDispatch(setUserName(`${loginProperties.username}`))
             setAllBlocked(false)
             history.push('/tabs')
         }, 2000)
@@ -61,8 +59,8 @@ export default function EmployerLogin({history, match}) {
 
     useEffect(() => {
         console.log(document.cookie)
-        if (!loginProperties.name || !loginProperties.surname || !loginProperties.fatherName) return
-        if (loginProperties.name?.toString().trim().length > 1 && loginProperties.surname?.toString().trim().length > 3 && loginProperties.fatherName.toString().trim().length > 3){
+        if (!loginProperties.username || !loginProperties.password) return
+        if (loginProperties.username?.toString().trim().length > 1 && loginProperties.password?.toString().trim().length > 3){
             setNextButtonDisabled(false)
         }
     }, [loginProperties]);
@@ -101,10 +99,8 @@ export default function EmployerLogin({history, match}) {
                                 flexDirection: 'column',
                                 gap: '1em'
                             }}>
-                                <IonInput minlength={2} clearInput autoCapitalize={'sentences'} autocomplete={'family-name'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, surname: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Фамилия'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
-                                <IonInput minlength={2} clearInput autoCapitalize={'sentences'} autocomplete={'given-name'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, name: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Имя'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
-                                <IonInput minlength={2} clearInput autoCapitalize={'sentences'} autocomplete={'additional-name'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, fatherName: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Отчество'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
-
+                                <IonInput minlength={2} autofocus clearInput autoCapitalize={'sentences'} autocomplete={'username'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, username: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Логин'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput pattern={"password"} type={"password"} minlength={2} clear-on-edit clearInput autocomplete={'current-password'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, password: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Пароль'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
                             </div>
                         </div>
                     </div>

@@ -4,7 +4,8 @@ import Tasks from "./Tasks.tsx";
 import MapPage from "./MapPage.tsx";
 import EducationPage from "./EducationPage.tsx";
 import Task from "./Task.tsx";
-import {mapOutline, listOutline, schoolOutline} from "ionicons/icons"
+import {mapOutline, listOutline, schoolOutline, personCircleOutline} from "ionicons/icons"
+import ProfilePage from "./ProfilePage.tsx";
 
 export default function Tabs() {
     return(
@@ -17,6 +18,9 @@ export default function Tabs() {
                 </Route>
                 <Route exact path={"/tabs/education"}>
                    <EducationPage/>
+                </Route>
+                <Route exact path={'/tabs/profile'}>
+                    <ProfilePage/>
                 </Route>
                 <Route exact path={'/tabs/tasks/:id'} component={Task}/>
                 <Route exact path={"/tabs"}>
@@ -35,6 +39,10 @@ export default function Tabs() {
                 <IonTabButton tab={'education'} href={'/tabs/education'}>
                     <IonIcon icon={schoolOutline}/>
                     <IonLabel>Обучение</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab={'profile'} href={'/tabs/profile'}>
+                    <IonIcon icon={personCircleOutline}/>
+                    <IonLabel>Профиль</IonLabel>
                 </IonTabButton>
             </IonTabBar>
         </IonTabs>
