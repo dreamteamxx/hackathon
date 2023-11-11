@@ -1,15 +1,25 @@
-import {IonActionSheet, IonCard, IonContent, IonIcon} from "@ionic/react";
+import {IonActionSheet, IonCard, IonContent, IonIcon, useIonRouter} from "@ionic/react";
 import {Avatar} from "antd";
 import {useAppSelector} from "../hooks/storeHooks.ts";
 import {logOutOutline} from "ionicons/icons"
 import { useState } from "react";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
+import {CapacitorCookies} from "@capacitor/core"
+import {clearStore} from "../store";
 
+//@ts-ignore
 export default function ProfilePage () {
     const userName = useAppSelector(state => state.userName.userName)
     const [isActionSheetOpen, setActionSheetOpen] = useState(false)
+    const router = useIonRouter()
     const logOut = (action:OverlayEventDetail<any>) => {
-        if (action.data.action === "logout") setActionSheetOpen(false)
+        if (action?.data?.action === "logout") {
+            CapacitorCookies.clearAllCookies().then(() => {
+                clearStore()
+                setActionSheetOpen(false)
+                router.push("/login", "root", "replace")
+            })
+        }
         else setActionSheetOpen(false)
     }
     return (
