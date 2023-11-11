@@ -27,6 +27,7 @@ class Point(Base):
         Integer, nullable=True, default=0
     )
     issued_cards_count: Mapped[int] = mapped_column(Integer, nullable=True, default=0)
+    coordinates: Mapped[str] = mapped_column(String, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )

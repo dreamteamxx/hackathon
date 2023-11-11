@@ -12,5 +12,5 @@ class OfficeUpdate(OfficeCreate):
 
 class OfficeRead(OfficeCreate):
     id: int
-
+    coordinates: str | None = None
     model_config = ConfigDict(from_attributes=True)

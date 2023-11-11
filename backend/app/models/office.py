@@ -13,6 +13,7 @@ class Office(Base):
     )
     office_name: Mapped[str] = mapped_column(String, index=True, nullable=False)
     address: Mapped[str] = mapped_column(String, nullable=False)
+    coordinates: Mapped[str] = mapped_column(String, nullable=True)
 
     def to_dto(self) -> schemas.OfficeRead:
         return schemas.OfficeRead.model_validate(self)
