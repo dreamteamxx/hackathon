@@ -7,7 +7,7 @@ import {
 } from "@ionic/react";
 import {chevronBack} from 'ionicons/icons'
 import "./login.module.css"
-import {MouseEventHandler, useEffect, useState} from "react";
+import {MouseEventHandler, useEffect, useRef, useState} from "react";
 import {setUserType} from "../../store/slices/userTypeSlice.ts";
 import {useAppDispatch} from "../../hooks/storeHooks.ts";
 import {setUserName} from "../../store/slices/userNameSlice.ts";
@@ -39,10 +39,11 @@ export default function EmployerLogin({history, match}) {
     const userNameDispatch = useAppDispatch()
     const [_, setCookie] = useCookies(["role"]);
 
+    let loginInputRef = useRef(null)
+    let passwordInputRef = useRef(null)
     const handleNextButton:MouseEventHandler<HTMLIonButtonElement> = (e) => {
         e.preventDefault()
         setAllBlocked(true)
-
         setTimeout(() => {
             userTypeDispatch(setUserType({
                 type: match.params.employerType,
@@ -53,6 +54,10 @@ export default function EmployerLogin({history, match}) {
             setCookie("role", match.params.employerType,{maxAge: cookieExipred, path: "/"})
             userNameDispatch(setUserName(`${loginProperties.username}`))
             setAllBlocked(false)
+            // @ts-ignore
+            loginInputRef.current.value = ""
+            // @ts-ignore
+            passwordInputRef.current.value = ""
             history.push('/tabs')
         }, 2000)
     }
@@ -99,8 +104,8 @@ export default function EmployerLogin({history, match}) {
                                 flexDirection: 'column',
                                 gap: '1em'
                             }}>
-                                <IonInput minlength={2} autofocus clearInput autoCapitalize={'sentences'} autocomplete={'username'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, username: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Логин'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
-                                <IonInput pattern={"password"} type={"password"} minlength={2} clear-on-edit clearInput autocomplete={'current-password'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, password: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Пароль'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput ref={loginInputRef} minlength={2} autofocus clearInput autoCapitalize={'sentences'} autocomplete={'username'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, username: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Логин'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
+                                <IonInput ref={passwordInputRef} pattern={"password"} type={"password"} minlength={2} clear-on-edit clearInput autocomplete={'current-password'} disabled={isAllBlocked} onIonInput={(e) => setLoginProperties({...loginProperties, password: e.target.value})} mode={'md'} shape={'round'} fill={'outline'} label={'Пароль'} style={{maxHeight: '60px'}} labelPlacement={'floating'} required/>
                             </div>
                         </div>
                     </div>

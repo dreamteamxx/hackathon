@@ -1,15 +1,13 @@
 import {
-    IonButton,
     IonContent, IonFooter,
-    IonHeader, IonItem, IonList,
+    IonItem, IonList,
     IonModal,
-    IonTitle, IonToast,
+    IonToast,
     IonToolbar,
     IonIcon,
-    IonButtons
 } from "@ionic/react";
 import {useRef} from "react";
-import {chevronBack, callOutline, chatbubbleEllipsesOutline, locationOutline} from "ionicons/icons";
+import {callOutline, chatbubbleEllipsesOutline, locationOutline} from "ionicons/icons";
 import PrimaryIonButton from "../components/buttons/PrimaryIonButton/PrimaryIonButton.tsx";
 import InvisibleIonButton from "../components/buttons/invisibleIonButton/InvisibleIonButton.tsx";
 import {useAppSelector} from "../hooks/storeHooks.ts";

@@ -1,18 +1,17 @@
-import {IonContent, IonHeader, IonTitle, IonToolbar} from "@ionic/react";
-import ionCl from "../css/IonFixes.module.css"
+import {IonContent} from "@ionic/react";
 import MapboxMap from "../components/map/MapboxMap.tsx";
 
 export default function MapPage(){
 
     return(
         <>
-            <IonHeader mode={"md"}>
-                <IonToolbar mode={"md"} className={ionCl.fullScreenToolbar}>
-                    <IonTitle>
-                        <h1>Карта</h1>
-                    </IonTitle>
-                </IonToolbar>
-            </IonHeader>
+            {/*<IonHeader mode={"md"}>*/}
+            {/*    <IonToolbar mode={"md"} className={ionCl.fullScreenToolbar}>*/}
+            {/*        <IonTitle>*/}
+            {/*            <h1>Карта</h1>*/}
+            {/*        </IonTitle>*/}
+            {/*    </IonToolbar>*/}
+            {/*</IonHeader>*/}
             <IonContent fullscreen={true}>
                 <div style={{minHeight: "100%"}}>
                     <MapboxMap/>

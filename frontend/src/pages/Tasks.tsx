@@ -4,18 +4,16 @@ import {
     IonCardSubtitle, IonCardTitle,
     IonChip,
     IonContent,
-    IonHeader, IonIcon,
+    IonHeader,
     IonRefresher,
-    IonRefresherContent, IonRippleEffect,
+    IonRefresherContent,
     IonTitle,
     IonToolbar, RefresherEventDetail
 } from "@ionic/react";
 import {useEffect, useState} from "react";
 import Task from "./Task.tsx";
 import {useCookies} from "react-cookie";
-import {personCircleOutline} from "ionicons/icons"
 import cl from "../css/IonFixes.module.css"
-import InvisibleIonButton from "../components/buttons/invisibleIonButton/InvisibleIonButton.tsx";
 import Profile from "../components/buttons/profile/Profile.tsx";
 //@ts-ignore
 export default function Tasks({history}){
@@ -95,8 +93,8 @@ export default function Tasks({history}){
                                         justifyContent: 'space-between'
                                     }}>
                                         <div>
-                                            <IonCardTitle>{item.text}</IonCardTitle>
-                                            <IonCardSubtitle>Выдача карты</IonCardSubtitle>
+                                            <IonCardTitle>Выдача карты</IonCardTitle>
+                                            <IonCardSubtitle style={{textAlign: "left"}}>{item.text}</IonCardSubtitle>
                                         </div>
                                         <div style={{
                                             display:"flex",
