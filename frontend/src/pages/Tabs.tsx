@@ -2,9 +2,8 @@ import {IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs} fr
 import {Redirect, Route} from "react-router-dom";
 import Tasks from "./Tasks.tsx";
 import MapPage from "./MapPage.tsx";
-import EducationPage from "./EducationPage.tsx";
 import Task from "./Task.tsx";
-import {mapOutline, listOutline, schoolOutline, personCircleOutline} from "ionicons/icons"
+import {mapOutline, listOutline, personCircleOutline} from "ionicons/icons"
 import ProfilePage from "./ProfilePage.tsx";
 
 export default function Tabs() {
@@ -16,9 +15,9 @@ export default function Tabs() {
                 <Route exact path={"/tabs/map"}>
                    <MapPage/>
                 </Route>
-                <Route exact path={"/tabs/education"}>
-                   <EducationPage/>
-                </Route>
+                {/*<Route exact path={"/tabs/education"}>*/}
+                {/*   <EducationPage/>*/}
+                {/*</Route>*/}
                 <Route exact path={'/tabs/profile'}>
                     <ProfilePage/>
                 </Route>
@@ -36,10 +35,10 @@ export default function Tabs() {
                     <IonIcon icon={mapOutline}/>
                     <IonLabel>Карта</IonLabel>
                 </IonTabButton>
-                <IonTabButton tab={'education'} href={'/tabs/education'}>
-                    <IonIcon icon={schoolOutline}/>
-                    <IonLabel>Обучение</IonLabel>
-                </IonTabButton>
+                {/*<IonTabButton tab={'education'} href={'/tabs/education'}>*/}
+                {/*    <IonIcon icon={schoolOutline}/>*/}
+                {/*    <IonLabel>Обучение</IonLabel>*/}
+                {/*</IonTabButton>*/}
                 <IonTabButton tab={'profile'} href={'/tabs/profile'}>
                     <IonIcon icon={personCircleOutline}/>
                     <IonLabel>Профиль</IonLabel>
