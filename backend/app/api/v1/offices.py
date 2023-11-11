@@ -20,10 +20,10 @@ SessionDB = Annotated[AsyncSession, Depends(get_async_session)]
 
 @router.get("", response_model=List[OfficeRead])
 async def get_offices(
-        response: Response,
-        session: SessionDB,
-        skip: int = 0,
-        limit: int = 100,
+    response: Response,
+    session: SessionDB,
+    skip: int = 0,
+    limit: int = 100,
 ) -> Any:
     office_repo: OfficeRepo = OfficeRepo(session)
     offices = await office_repo.get_offices()
@@ -35,8 +35,8 @@ async def get_offices(
 
 @router.post("", response_model=OfficeRead)
 async def create_office(
-        session: SessionDB,
-        office: OfficeCreate,
+    session: SessionDB,
+    office: OfficeCreate,
 ) -> Any:
     office = Office(**office.model_dump())
     office_repo: OfficeRepo = OfficeRepo(session)
@@ -47,10 +47,10 @@ async def create_office(
 
 @router.patch("/{office_id}", response_model=OfficeUpdate)
 async def update_office(
-        office_id: int,
-        response: Response,
-        session: SessionDB,
-        office: OfficeUpdate,
+    office_id: int,
+    response: Response,
+    session: SessionDB,
+    office: OfficeUpdate,
 ) -> Any:
     office_repo: OfficeRepo = OfficeRepo(session)
     office_object = OfficeUpdate(**office.model_dump())
@@ -62,9 +62,9 @@ async def update_office(
 
 @router.delete("/{office_id}")
 async def delete_office(
-        office_id: int,
-        response: Response,
-        session: SessionDB,
+    office_id: int,
+    response: Response,
+    session: SessionDB,
 ) -> Any:
     office_repo: OfficeRepo = OfficeRepo(session)
     await office_repo.delete_office(office_id)

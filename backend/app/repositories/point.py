@@ -35,7 +35,9 @@ class PointRepo(SQLAlchemyRepo):
             await self.session.rollback()
 
     async def update_point(self, point_id: int, point_new: PointUpdate) -> PointUpdate:
-        stmt = update(Point).where(Point.id == point_id).values(**point_new.model_dump())
+        stmt = (
+            update(Point).where(Point.id == point_id).values(**point_new.model_dump())
+        )
         await self.session.execute(stmt)
         await self.session.commit()
         return point_new

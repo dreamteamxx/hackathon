@@ -16,5 +16,6 @@ class EmployeeReferenceUpdate(EmployeeReferenceCreate):
 class EmployeeReferenceRead(EmployeeReferenceCreate):
     id: int
     grade: schemas.GradeRead
+    office: schemas.OfficeRead
 
     model_config = ConfigDict(from_attributes=True)

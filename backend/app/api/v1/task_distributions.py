@@ -9,7 +9,11 @@ from starlette.responses import Response
 from app.deps.db import get_async_session
 from app.models import TaskDistribution
 from app.repositories.task_distribution import TaskDistributionRepo
-from app.schemas import TaskDistributionRead, TaskDistributionCreate, TaskDistributionUpdate
+from app.schemas import (
+    TaskDistributionRead,
+    TaskDistributionCreate,
+    TaskDistributionUpdate,
+)
 
 router = APIRouter(prefix="/task_distributions")
 
@@ -20,10 +24,10 @@ SessionDB = Annotated[AsyncSession, Depends(get_async_session)]
 
 @router.get("", response_model=List[TaskDistributionRead])
 async def get_task_distributions(
-        response: Response,
-        session: SessionDB,
-        skip: int = 0,
-        limit: int = 100,
+    response: Response,
+    session: SessionDB,
+    skip: int = 0,
+    limit: int = 100,
 ) -> Any:
     task_distribution_repo: TaskDistributionRepo = TaskDistributionRepo(session)
     task_distributions = await task_distribution_repo.get_task_distributions()
@@ -35,8 +39,8 @@ async def get_task_distributions(
 
 @router.post("", response_model=TaskDistributionRead)
 async def create_task_distribution(
-        session: SessionDB,
-        task: TaskDistributionCreate,
+    session: SessionDB,
+    task: TaskDistributionCreate,
 ) -> Any:
     task_distribution = TaskDistribution(**task.model_dump())
     task_distribution_repo: TaskDistributionRepo = TaskDistributionRepo(session)
@@ -47,21 +51,23 @@ async def create_task_distribution(
 
 @router.patch("/{task_distribution_id}", response_model=TaskDistributionUpdate)
 async def update_task_distribution(
-        task_distribution_id: int,
-        response: Response,
-        session: SessionDB,
-        task_distribution: TaskDistributionUpdate,
+    task_distribution_id: int,
+    response: Response,
+    session: SessionDB,
+    task_distribution: TaskDistributionUpdate,
 ) -> Any:
     task_distribution_repo: TaskDistributionRepo = TaskDistributionRepo(session)
-    await task_distribution_repo.update_task_distribution(task_distribution_id, task_distribution)
+    await task_distribution_repo.update_task_distribution(
+        task_distribution_id, task_distribution
+    )
     logger.info(f"TaskDistribution updated")
 
 
 @router.delete("/{task_distribution_id}")
 async def delete_task_distribution(
-        task_distribution_id: int,
-        response: Response,
-        session: SessionDB,
+    task_distribution_id: int,
+    response: Response,
+    session: SessionDB,
 ) -> Any:
     task_distribution_repo: TaskDistributionRepo = TaskDistributionRepo(session)
     await task_distribution_repo.delete_task_distribution(task_distribution_id)

@@ -1,6 +1,14 @@
 from fastapi import APIRouter
 
-from app.api.v1 import grades, employee_reference, offices, task_distributions, task_reference,conditions,points
+from app.api.v1 import (
+    grades,
+    employee_reference,
+    offices,
+    task_distributions,
+    task_reference,
+    conditions,
+    points,
+)
 
 api_router = APIRouter()
 api_router.include_router(grades.router, tags=["grades"])

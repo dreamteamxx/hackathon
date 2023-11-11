@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 from app.utils.mapbox.mapbox_client import MapboxClient
@@ -18,9 +19,4 @@ class MatrixAPIClient(MapboxClient):
         resp = await self.session_get(
             f"{self.api_url}/mapbox/driving/{coordinates}?access_token={self.api_key}"
         )
-        if resp.status != 200:
-            logger.error(
-                f"Matrix API returned {resp.status} status code. Error: {resp.reason}"
-            )
-            return {}
         return await resp.json()

@@ -14,8 +14,8 @@ from app.models import Condition
 
 logger = logging.getLogger(__name__)
 
-class ConditionRepo(SQLAlchemyRepo):
 
+class ConditionRepo(SQLAlchemyRepo):
     async def get_condition(self, condition_id: int) -> Optional[ConditionRead]:
         query = await self.session.execute(
             select(models.Condition).where(models.Condition.id == condition_id)
@@ -38,8 +38,14 @@ class ConditionRepo(SQLAlchemyRepo):
             logger.error(f"Error creating condition: {e}")
             await self.session.rollback()
 
-    async def update_condition(self, condition_id: int, condition_new: ConditionUpdate) -> ConditionUpdate:
-        stmt = update(Condition).where(Condition.id == condition_id).values(**condition_new.model_dump())
+    async def update_condition(
+        self, condition_id: int, condition_new: ConditionUpdate
+    ) -> ConditionUpdate:
+        stmt = (
+            update(Condition)
+            .where(Condition.id == condition_id)
+            .values(**condition_new.model_dump())
+        )
         await self.session.execute(stmt)
         await self.session.commit()
         return condition_new

@@ -41,10 +41,10 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
     # override create method to add user to database
     async def create(
-            self,
-            user_create: schemas.UC,
-            safe: bool = False,
-            request: Optional[Request] = None,
+        self,
+        user_create: schemas.UC,
+        safe: bool = False,
+        request: Optional[Request] = None,
     ) -> models.UP:
         """
         Create a user in database.
@@ -86,7 +86,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         await self.request_verify(user, request)
 
     async def authenticate(
-            self, credentials: OAuth2PasswordRequestForm
+        self, credentials: OAuth2PasswordRequestForm
     ) -> Optional[models.UP]:
         self.user_db: SQLAlchemyUserDB
         try:

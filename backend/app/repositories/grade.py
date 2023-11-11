@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 
 class GradeRepo(SQLAlchemyRepo):
-
     async def get_grade(self, grade_id: int) -> Optional[GradeRead]:
         query = await self.session.execute(
             select(models.Grade).where(models.Grade.id == grade_id)
@@ -40,7 +39,9 @@ class GradeRepo(SQLAlchemyRepo):
             await self.session.rollback()
 
     async def update_grade(self, grade_id: int, grade_new: GradeUpdate) -> GradeUpdate:
-        stmt = update(Grade).where(Grade.id == grade_id).values(**grade_new.model_dump())
+        stmt = (
+            update(Grade).where(Grade.id == grade_id).values(**grade_new.model_dump())
+        )
         await self.session.execute(stmt)
         await self.session.commit()
         return grade_new

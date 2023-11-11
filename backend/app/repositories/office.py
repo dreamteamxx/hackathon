@@ -35,7 +35,9 @@ class OfficeRepo(SQLAlchemyRepo):
             await self.session.rollback()
 
     async def update_office(self, office_id: int, office: OfficeUpdate) -> OfficeUpdate:
-        stmt = update(Office).where(Office.id == office_id).values(**office.model_dump())
+        stmt = (
+            update(Office).where(Office.id == office_id).values(**office.model_dump())
+        )
         await self.session.execute(stmt)
         await self.session.commit()
         return office

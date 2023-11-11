@@ -12,9 +12,11 @@ class MapboxClient:
 
     @asynccontextmanager
     async def _create_session(self):
-        return aiohttp.ClientSession()
+        yield aiohttp.ClientSession()
 
     async def session_get(self, url):
         async with self._create_session() as session:
             async with session.get(url) as response:
-                return response
+                if response.status == 200:
+                    return await response.json()
+                return None

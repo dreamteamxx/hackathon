@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict
 from app.schemas import ConditionRead, ConditionCreate
 
 
-class TasksReferenceCreate(BaseModel):
+class TaskReferenceCreate(BaseModel):
     task_name: str
     priority: int
     execution_time: int
@@ -13,11 +13,11 @@ class TasksReferenceCreate(BaseModel):
     min_employee_level: int
 
 
-class TasksReferenceUpdate(TasksReferenceCreate):
+class TaskReferenceUpdate(TaskReferenceCreate):
     ...
 
 
-class TasksReferenceRead(TasksReferenceCreate):
+class TaskReferenceRead(TaskReferenceCreate):
     id: int
     conditions: None = None
 

@@ -14,11 +14,6 @@ class GeocodingAPIClient(MapboxClient):
         # url-encode address
         address = address.replace(" ", "%20")
         resp = await self.session_get(
-            f"{self.api_url}/{address}.json?access_token={self.api_key}"
+            f"{self.api_url}/{address}.json?country=ru&types=address&access_token={self.api_key}"
         )
-        if resp.status != 200:
-            logger.error(
-                f"Geocoding API returned {resp.status} status code. Error: {resp.reason}"
-            )
-            return {}
-        return await resp.json()
+        return resp

@@ -36,8 +36,8 @@ async def get_grades(
 
 @router.post("", response_model=GradeRead)
 async def create_grade(
-        session: SessionDB,
-        grade_in: GradeCreate,
+    session: SessionDB,
+    grade_in: GradeCreate,
 ) -> Any:
     grade = Grade(**grade_in.model_dump())
     grade_repo: GradeRepo = GradeRepo(session)
@@ -48,10 +48,10 @@ async def create_grade(
 
 @router.patch("/{grade_id}", response_model=GradeUpdate)
 async def update_grade(
-        grade_id: int,
-        response: Response,
-        session: SessionDB,
-        grade: GradeCreate,
+    grade_id: int,
+    response: Response,
+    session: SessionDB,
+    grade: GradeCreate,
 ) -> Any:
     grade_repo: GradeRepo = GradeRepo(session)
     grade_object = GradeUpdate(**grade.model_dump())
@@ -63,9 +63,9 @@ async def update_grade(
 
 @router.delete("/{grade_id}")
 async def delete_grade(
-        grade_id: int,
-        response: Response,
-        session: SessionDB,
+    grade_id: int,
+    response: Response,
+    session: SessionDB,
 ) -> Any:
     grade_repo: GradeRepo = GradeRepo(session)
     await grade_repo.delete_grade(grade_id)

@@ -29,7 +29,7 @@ def create_app():
         if app.openapi_schema:
             return app.openapi_schema
         openapi_schema = get_openapi(
-            title="Ou loomin API",
+            title="Hackathon API",
             version="0.3.4b",
             routes=app.routes,
         )

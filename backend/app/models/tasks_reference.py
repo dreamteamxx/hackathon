@@ -21,8 +21,8 @@ class TasksReference(Base):
     conditions: Mapped[List["Condition"]] = relationship()
     min_employee_level: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    def to_dto(self) -> schemas.TasksReferenceRead:
-        return schemas.TasksReferenceRead(
+    def to_dto(self) -> schemas.TaskReferenceRead:
+        return schemas.TaskReferenceRead(
             id=self.id,
             task_name=self.task_name,
             priority=self.priority,

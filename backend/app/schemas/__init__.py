@@ -13,8 +13,8 @@ from .task_distribution import (
     TaskDistributionUpdate,
 )
 from .tasks_reference import (
-    TasksReferenceRead,
-    TasksReferenceCreate,
-    TasksReferenceUpdate,
+    TaskReferenceRead,
+    TaskReferenceCreate,
+    TaskReferenceUpdate,
 )
 from .user import UserRead

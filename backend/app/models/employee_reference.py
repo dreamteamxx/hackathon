@@ -16,9 +16,10 @@ class EmployeeReference(Base):
         ForeignKey("grade.id", ondelete="CASCADE"), nullable=False
     )
     office_id: Mapped[int] = mapped_column(
-         ForeignKey("office.id", ondelete="CASCADE"), nullable=False
+        ForeignKey("office.id", ondelete="CASCADE"), nullable=False
     )
     grade: Mapped["Grade"] = relationship()
+    office: Mapped["Office"] = relationship()
 
     def to_dto(self) -> schemas.EmployeeReferenceRead:
         return schemas.EmployeeReferenceRead.model_validate(self)
