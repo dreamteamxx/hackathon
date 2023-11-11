@@ -1,0 +1,5 @@
+.invisibleButton ion-button{
+    --background: transparent;
+    --background-activated: transparent;
+    --box-shadow: 0
+}

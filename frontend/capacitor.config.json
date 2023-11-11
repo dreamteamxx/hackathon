@@ -1,0 +1,12 @@
+{
+  "appId": "io.ionic.hackathon4",
+  "appName": "hackathon4",
+  "npmClient": "yarn",
+  "webDir": "dist",
+  "cordova": {},
+  "plugins": {
+    "CapacitorCookies": {
+      "enabled": true
+    }
+  }
+}

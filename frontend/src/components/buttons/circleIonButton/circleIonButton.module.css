@@ -1,0 +1,9 @@
+.primaryCircleSmallButton ion-button{
+    --border-radius: 50%;
+    --background: #1D4688;;
+    --background-activated: #173568;;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    --padding-left: 15px;
+    --padding-right: 15px;
+}
