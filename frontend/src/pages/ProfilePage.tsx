@@ -1,25 +1,33 @@
-import {IonCard, IonContent, IonIcon} from "@ionic/react";
+import {IonActionSheet, IonCard, IonContent, IonIcon} from "@ionic/react";
 import {Avatar} from "antd";
 import {useAppSelector} from "../hooks/storeHooks.ts";
-import {keyOutline} from "ionicons/icons"
+import {logOutOutline} from "ionicons/icons"
+import { useState } from "react";
+import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 
 export default function ProfilePage () {
     const userName = useAppSelector(state => state.userName.userName)
+    const [isActionSheetOpen, setActionSheetOpen] = useState(false)
+    const logOut = (action:OverlayEventDetail<any>) => {
+        if (action.data.action === "logout") setActionSheetOpen(false)
+        else setActionSheetOpen(false)
+    }
     return (
         <>
             <IonContent fullscreen className={"ion-padding"}>
                 <div style={{
                     display: "flex",
-                    justifyContent: "space-evenly",
+                    justifyContent: "space-between",
                     flexDirection: "column",
                     minWidth: "100%",
-                    minHeight: "100%"
+                    minHeight: "100%",
                 }}>
                     <div style={{
                         display: "flex",
                         justifyContent: "center",
                         alignContent: "center",
-                        minWidth: "100%"
+                        minWidth: "100%",
+                        paddingTop: '10em'
                     }}>
                         <div style={{
                             display: "flex",
@@ -31,10 +39,10 @@ export default function ProfilePage () {
                             </div>
                             <p style={{marginBottom: 0, fontSize: 28}}>Иван Иванович</p>
                             <p style={{marginTop: 0, marginBottom: 0, color: "blue"}}>@{userName}</p>
-                            <p style={{marginTop: 0, marginBottom: 0}}>Middle</p>
+                            <p style={{marginTop: 0, marginBottom: 0, fontSize: 18}}>Грейд: Middle</p>
                         </div>
                     </div>
-                    <IonCard button>
+                    <IonCard button onClick={() => setActionSheetOpen(true)}>
                         <div style={{
                             display: "flex",
                             gap: "1em",
@@ -46,13 +54,34 @@ export default function ProfilePage () {
                             paddingBottom: ".5em"
                         }}>
                             <div>
-                                <IonIcon icon={keyOutline}/>
+                                <IonIcon icon={logOutOutline}/>
                             </div>
-                            <span>Настройки аккаунта</span>
+                            <span style={{color: 'red'}}>Выйти</span>
                         </div>
                     </IonCard>
                 </div>
             </IonContent>
+            <IonActionSheet
+                isOpen={isActionSheetOpen}
+                header={"Вы уверены что хотите выйти ?"}
+                buttons={[
+                    {
+                        text: "Да",
+                        role: "destructive",
+                        data: {
+                            action: "logout"
+                        }
+                    },
+                    {
+                        text: "Нет",
+                        role: 'cancel',
+                        data: {
+                            action: "cancel"
+                        }
+                    }
+                ]}
+                onDidDismiss={({detail}) => logOut(detail)}
+            />
         </>
     )
 }
